@@ -1,5 +1,41 @@
 import { useState } from 'react'
-//npm run dev -- --host 0.0.0.0
+
+const Filter = ({ newSearch, handleSetSearch }) => {
+  return (
+    <div>
+      filter shown with <input value={newSearch} onChange={handleSetSearch} />
+    </div>
+  )
+}
+
+const PersonForm = ({ handleSetNewName, newName, handleNameChange, newNumber, handleTelChange }) => {
+  return (
+    <form onSubmit={handleSetNewName}>
+      <div>
+        name: <input value={newName} onChange={handleNameChange} />
+        <div>
+          number: <input value={newNumber} onChange={handleTelChange} />
+        </div>
+      </div>
+      <div>
+        <button type="submit">add</button>
+      </div>
+    </form>
+  )
+}
+
+const Persons = ({ personsToShow }) => {
+  return (
+    <>
+      {personsToShow.map((person) => (
+        <p key={person.id}>
+          {person.name} {person.number}
+        </p>
+      ))}
+    </>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
@@ -8,14 +44,19 @@ const App = () => {
     { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 },
   ])
   const [newName, setNewName] = useState('')
-  const [newPhone, setnewPhone] = useState('')
+  const [newNumber, setNewNumber] = useState('')
+  const [newSearch, setSearch] = useState('')
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
 
-  const handleTellChenge = (event) => {
-    setnewPhone(event.target.value)
+  const handleTelChange = (event) => {
+    setNewNumber(event.target.value)
+  }
+
+  const handleSetSearch = (event) => {
+    setSearch(event.target.value)
   }
 
   const handleSetNewName = (event) => {
@@ -23,15 +64,16 @@ const App = () => {
 
     const newPerson = {
       name: newName,
-      phone: newPhone,
+      number: newNumber,
       id: persons.length + 1,
     }
 
-    if (checkRepeatedName(newPerson.name) === true) {
+    if (checkRepeatedName(newPerson.name)) {
       return
     } else {
       setPersons(persons.concat(newPerson))
       setNewName('')
+      setNewNumber('')
     }
   }
 
@@ -45,32 +87,26 @@ const App = () => {
     return hasMatch
   }
 
+  const personsToShow = newSearch
+    ? persons.filter((item) => item.name.toLowerCase().includes(newSearch.toLowerCase()))
+    : persons
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with <input />
-      </div>
+      <Filter newSearch={newSearch} handleSetSearch={handleSetSearch} />
 
-      <h2>add a new</h2>
-      <form onSubmit={handleSetNewName}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-          <div>
-            number: <input value={newPhone} onChange={handleTellChenge} />
-          </div>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <h3>Add a new</h3>
+      <PersonForm
+        handleSetNewName={handleSetNewName}
+        newName={newName}
+        handleNameChange={handleNameChange}
+        newNumber={newNumber}
+        handleTelChange={handleTelChange}
+      />
 
-      <h2>Numbers</h2>
-      {persons.map((person) => (
-        <p key={person.id}>
-          {person.name} {person.phone}
-        </p>
-      ))}
+      <h3>Numbers</h3>
+      <Persons personsToShow={personsToShow} />
     </div>
   )
 }
