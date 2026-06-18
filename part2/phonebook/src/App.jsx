@@ -26,7 +26,7 @@ const PersonForm = ({ handleSetNewName, newName, handleNameChange, newNumber, ha
   )
 }
 
-const Persons = ({ personsToShow }) => {
+const Persons = ({ personsToShow, dellPerson }) => {
   return (
     <>
       {personsToShow.map((person) => (
@@ -34,7 +34,7 @@ const Persons = ({ personsToShow }) => {
           <span>
             {person.name} {person.number}
           </span>
-          <button>delete</button>
+          <button onClick={() => dellPerson(person.id)}>delete</button>
         </div>
       ))}
     </>
@@ -48,10 +48,7 @@ const App = () => {
   const [newSearch, setSearch] = useState('')
 
   useEffect(() => {
-    console.log('effect')
     axiosServices.getAll().then((response) => {
-      console.log('promise fulfilled', response)
-      console.log('promise fulfilled')
       setPersons(response)
     })
   }, [])
@@ -74,15 +71,29 @@ const App = () => {
     const newPerson = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
     }
 
-    if (checkRepeatedName(newPerson.name)) {
-      return
+    const personId = checkRepeatedName(newPerson.name)
+
+    if (personId) {
+      if (window.confirm(`${newPerson.name} is already adddet to phonebook, replace the old number with a new one?`)) {
+        axiosServices.update(personId, newPerson).then((response) => {
+          let updatedPersons = persons.filter((item) => item.id != personId)
+
+          updatedPersons = updatedPersons.concat(response)
+
+          setPersons(updatedPersons)
+        })
+        setNewName('')
+        setNewNumber('')
+        console.log(`persons updated`)
+      } else {
+        return
+      }
     } else {
-      //   setPersons(persons.concat(newPerson))
-      axios.post('http://localhost:3001/persons', newPerson).then((response) => {
-        console.log(response)
+      axiosServices.create(newPerson).then((response) => {
+        const newPersons = persons.concat(response)
+        setPersons(newPersons)
       })
 
       setNewName('')
@@ -91,18 +102,32 @@ const App = () => {
   }
 
   const checkRepeatedName = (person) => {
-    const hasMatch = persons.some((element) => element.name === person)
+    let elementId
 
-    if (hasMatch) {
-      alert(`${person} is already added to phonebook`)
-    }
+    persons.forEach((element) => {
+      if (element.name === person) {
+        elementId = element.id
+      }
+    })
 
-    return hasMatch
+    return elementId
   }
 
   const personsToShow = newSearch
     ? persons.filter((item) => item.name.toLowerCase().includes(newSearch.toLowerCase()))
     : persons
+
+  const dellPerson = (id) => {
+    if (window.confirm('Do you really want to delete this person?')) {
+      axiosServices.remove(id).then(() => {
+        const newPersons = persons.filter((item) => item.id != id)
+        setPersons(newPersons)
+      })
+      console.log(`delete`)
+    } else {
+      console.log('delete cancellation')
+    }
+  }
 
   return (
     <div>
@@ -119,7 +144,7 @@ const App = () => {
       />
 
       <h3>Numbers</h3>
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} dellPerson={dellPerson} />
     </div>
   )
 }
