@@ -22,13 +22,18 @@
     },
     {
       "content": "ыфафыафыа",
-      "important": false,
+      "important": true,
       "id": "X2inaaI-yIg"
     },
     {
       "content": "фыавфыпф",
       "important": true,
       "id": "ZKLbFQjYrQU"
+    },
+    {
+      "content": "fddfdf",
+      "important": false,
+      "id": "WLeIjDL5h6s"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

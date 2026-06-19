@@ -16,6 +16,4 @@ const update = (id, newObject) => {
   return request.then((response) => response.data)
 }
 
-async
-
 export default { getAll, create, update }
