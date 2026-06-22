@@ -28,3 +28,8 @@ h1 {
   padding: 10px;
   margin-bottom: 10px;
 }
+
+.flag {
+  width: 250px;
+  height: 100%;
+}

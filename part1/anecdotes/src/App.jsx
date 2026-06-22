@@ -24,7 +24,6 @@ const App = () => {
     const newVotes = [...votes];
     newVotes[randomIndex] = newVotes[randomIndex] + 1;
     setVotes(newVotes);
-    console.log(newVotes);
   };
 
   const unicRandom = () => {
