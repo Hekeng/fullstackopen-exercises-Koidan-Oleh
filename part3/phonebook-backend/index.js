@@ -2,7 +2,7 @@ const express = require("express"); //add biblioteck
 const morgan = require("morgan"); //service shows app logs
 const app = express(); //create server
 
-const cors = require("cors");
+// const cors = require("cors");
 
 app.use(express.static("dist"));
 
