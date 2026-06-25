@@ -1,12 +1,37 @@
+require("dotenv").config();
 const express = require("express"); //add biblioteck
+const Person = require("./models/person");
 const morgan = require("morgan"); //service shows app logs
 const app = express(); //create server
 
 // const cors = require("cors");
 
+// if (process.argv.length === 3) {
+//   Person.find({}).then((result) => {
+// 	console.log("phonebook:");
+
+// 	result.forEach((person) => {
+// 	  console.log(person.name, person.number);
+// 	});
+// 	mongoose.connection.close();
+//   });
+// } else if (process.argv.length === 5) {
+//   const person = new Person({
+// 	name: process.argv[3],
+// 	number: process.argv[4],
+//   });
+
+//   person.save().then((result) => {
+// 	console.log(`added ${person.name} number ${person.number} to phonebook`);
+// 	mongoose.connection.close();
+//   });
+// } else {
+//   mongoose.connection.close();
+// }
+
 app.use(express.static("dist"));
 
-app.use(cors());
+// app.use(cors());
 // app.use(
 //   cors({
 //     origin: "http://localhost:5173", // Твой сервер будет отвечать ТОЛЬКО твоему фронтенду
@@ -63,7 +88,10 @@ app.get("/", (request, response) => {
 });
 
 app.get("/api/persons", (request, response) => {
-  response.json(persons);
+  Person.find({}).then((persons) => {
+    response.json(persons);
+  });
+  //   response.json(persons);
 });
 
 app.get("/info", (request, response) => {
@@ -128,7 +156,7 @@ app.post("/api/persons", (request, response) => {
   response.json(person);
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
