@@ -1,7 +1,6 @@
 {
-  "name": "backend",
+  "name": "notebackend",
   "version": "0.0.1",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -10,10 +9,10 @@
   },
   "author": "Matti Luukkainen",
   "license": "MIT",
+  "description": "",
   "dependencies": {
-    "cors": "^2.8.6",
-    "express": "^5.2.1",
-    "mongoose": "^9.7.2",
-    "morgan": "^1.11.0"
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "mongoose": "^8.11.0"
   }
 }
