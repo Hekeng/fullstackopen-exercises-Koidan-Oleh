@@ -17,8 +17,28 @@ mongoose
   });
 
 const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  name: {
+    type: String,
+    minLength: 3,
+    required: true,
+  },
+
+  number: {
+    type: String,
+    validate: {
+      validator: function (phoneNumber) {
+        if (!phoneNumber) return false;
+        phoneNumber = phoneNumber.trim();
+
+        if (phoneNumber.length < 8) {
+          return false;
+        }
+        const regex = /^\d{2,3}-\d+$/;
+        return regex.test(phoneNumber);
+      },
+    },
+    required: true,
+  },
 });
 
 personSchema.set("toJSON", {

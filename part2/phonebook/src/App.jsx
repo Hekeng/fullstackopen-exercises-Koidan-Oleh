@@ -82,15 +82,13 @@ const App = () => {
         axiosServices
           .update(personId, newPerson)
           .then((response) => {
-
             let updatedPersons = persons.filter((item) => item.id != personId)
             updatedPersons = updatedPersons.concat(response)
             setPersons(updatedPersons)
             showMessage(`${newPerson.name} was updated!`, 'success')
-			
           })
           .catch((error) => {
-            showMessage(`Information about ${newPerson.name} has already been removed from the server.`, 'error')
+            showMessage(`${error.response.data.error}`, 'error')
           })
         setNewName('')
         setNewNumber('')
@@ -98,11 +96,16 @@ const App = () => {
         return
       }
     } else {
-      axiosServices.create(newPerson).then((response) => {
-        const newPersons = persons.concat(response)
-        setPersons(newPersons)
-        showMessage(`${newPerson.name} was created!`, 'success')
-      })
+      axiosServices
+        .create(newPerson)
+        .then((response) => {
+          const newPersons = persons.concat(response)
+          setPersons(newPersons)
+          showMessage(`${newPerson.name} was created!`, 'success')
+        })
+        .catch((error) => {
+          showMessage(`${error.response.data.error}`, 'error')
+        })
 
       setNewName('')
       setNewNumber('')
