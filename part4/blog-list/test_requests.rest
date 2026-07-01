@@ -1,0 +1,13 @@
+GET http://localhost:3001/api/blogs/
+###
+DELETE http://localhost:3001/api/blogs/2
+###
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+	"title": "Titel: abrakadabra",
+	"author": "Hexen",
+	"url": "Some_URL",
+	"likes": 1
+}
