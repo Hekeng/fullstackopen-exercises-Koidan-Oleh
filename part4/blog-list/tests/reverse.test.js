@@ -20,3 +20,4 @@ test('reverse of saippuakauppias', () => {
 
   assert.strictEqual(result, 'saippuakauppias')
 })
+
