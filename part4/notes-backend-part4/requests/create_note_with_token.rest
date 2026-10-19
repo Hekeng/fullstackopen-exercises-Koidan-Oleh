@@ -1,0 +1,8 @@
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjZhZDVkZjIyM2UwZjYwYzEzYzJjNWVkZiIsImlhdCI6MTc5MjQwNTg1MX0.o6sglZO1wcmkJfaMSPvvQgkfpQzWlxHLwXm8-9hZxWk
+
+{
+  "content": "My first authenticated note",
+  "important": true
+}
