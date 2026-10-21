@@ -1,15 +1,15 @@
-POST http://localhost:3001/api/users
+POST http://localhost:3003/api/users
 Content-Type: application/json
 
-# {
-# 	"username": "mluukkai",
-#   	"name": "Matti Luukkainen",
-#   	"password": "blablabla"
-# }
-
 {
-  "username": "hellas",
-  "name": "Arto Hellas",
-  "password": "lalala"
-  
+	"username": "mluukkai",
+  	"name": "Matti Luukkainen",
+  	"password": "blablabla"
 }
+
+# {
+#   "username": "hellas",
+#   "name": "Arto Hellas",
+#   "password": "lalala"
+  
+# }
